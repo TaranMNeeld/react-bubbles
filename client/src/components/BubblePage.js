@@ -1,20 +1,39 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
+import React from "react";
+import {axiosWithAuth} from "../utils/axiosWithAuth";
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
 
-const BubblePage = () => {
-  const [colorList, setColorList] = useState([]);
-  // fetch your colors data from the server when the component mounts
-  // set that data to the colorList state property
+export default class BubblePage extends React.Component {
+  state = {
+    colorList: []
+  }
 
-  return (
-    <>
-      <ColorList colors={colorList} updateColors={setColorList} />
-      <Bubbles colors={colorList} />
-    </>
-  );
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    axiosWithAuth().get("/colors")
+      .then(res => {
+        this.setState({
+          colorList: res.data
+        })
+      })
+      .catch(err => console.log(err))
+  };
+
+  setColorList = color => {
+    this.setState({
+      colorList: [...this.state.colorList, color]
+    })
+  }
+
+  render() {
+    return (
+      <>
+        <ColorList colors={this.state.colorList} updateColors={this.setColorList} />
+        <Bubbles colors={this.state.colorList} />
+      </>
+    );
+  }
 };
-
-export default BubblePage;

@@ -10,14 +10,13 @@ function App() {
   const [colorList, setColorList] = useState([]);
   return (
     <Router>
+      <nav className="navigation">
+        <Link to="/" className="nav-item">Login</Link>
+        <Link to="/colors" className="nav-item">Bubble Page</Link>
+      </nav>
       <div className="App">
-        <nav className="navigation">
-          <Link to="/" className="nav-item">Login</Link>
-          <Link to="/colors" className="nav-item">Bubble Page</Link>
-        </nav>
         <PrivateRoute path="/colors" component={BubblePage} />
         <Route exact path="/" component={Login} />
-
       </div>
     </Router>
   );
