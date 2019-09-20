@@ -12,11 +12,12 @@ function App() {
     <Router>
       <div className="App">
         <nav className="navigation">
-          <Link to="/login" className="nav-item">Login</Link>
+          <Link to="/" className="nav-item">Login</Link>
           <Link to="/colors" className="nav-item">Bubble Page</Link>
         </nav>
-        <PrivateRoute exact path="/colors" component={BubblePage} />
+        <PrivateRoute path="/colors" component={BubblePage} />
         <Route exact path="/" component={Login} />
+
       </div>
     </Router>
   );
