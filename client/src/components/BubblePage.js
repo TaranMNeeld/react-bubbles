@@ -9,10 +9,10 @@ export default class BubblePage extends React.Component {
   }
 
   componentDidMount() {
-    this.getData();
+    this.getColors();
   }
 
-  getData = () => {
+  getColors = () => {
     axiosWithAuth().get("/colors")
       .then(res => {
         this.setState({
@@ -31,7 +31,7 @@ export default class BubblePage extends React.Component {
   render() {
     return (
       <>
-        <ColorList colors={this.state.colorList} updateColors={this.setColorList} />
+        <ColorList colors={this.state.colorList} setColorList={this.setColorList} getColors={this.getColors} />
         <Bubbles colors={this.state.colorList} />
       </>
     );
