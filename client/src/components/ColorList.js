@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {axiosWithAuth} from "../utils/axiosWithAuth";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialColor = {
   color: "",
@@ -13,18 +13,15 @@ const ColorList = props => {
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
+    console.log(color)
   };
 
   const saveEdit = e => {
     e.preventDefault();
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
-    // const id = colorToEdit.id;
-    // const colorToUpdate = colors.find(color => `${color.id}` === id);
-    // if (colorToUpdate) {
-    //   setColorToEdit(colorToUpdate);
-    // }
+    const id = colorToEdit.id;
+    axiosWithAuth().put(`/colors/${id}`, colorToEdit)
+      .then(res => props.getColors())
+      .catch(err => console.log(err))
   };
 
   const deleteColor = color => {
@@ -71,7 +68,7 @@ const ColorList = props => {
               onChange={e =>
                 setColorToEdit({
                   ...colorToEdit,
-                  code: { hex: e.target.value }
+                  code: { hex: e.target.value}
                 })
               }
               value={colorToEdit.code.hex}
