@@ -1,39 +1,35 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {axiosWithAuth} from "../utils/axiosWithAuth";
 import Bubbles from "./Bubbles";
 import ColorList from "./ColorList";
 
-export default class BubblePage extends React.Component {
-  state = {
-    colorList: []
-  }
+const BubblePage = () => {
+  const [colorList, setColorList] = useState([])
 
-  componentDidMount() {
-    this.getColors();
-  }
-
-  getColors = () => {
+  const getColors = () => {
     axiosWithAuth().get("/colors")
       .then(res => {
-        this.setState({
-          colorList: res.data
-        })
+        setColorList(res.data)
       })
       .catch(err => console.log(err))
   };
 
-  setColorList = color => {
-    this.setState({
-      colorList: [...this.state.colorList, color]
-    })
-  }
+  useEffect(() => {
+    getColors()
+  }, [])
 
-  render() {
+  const setColors = color => {
+    setColorList([
+      ...colorList,
+      color
+    ])
+  }
     return (
       <>
-        <ColorList colors={this.state.colorList} setColorList={this.setColorList} getColors={this.getColors} />
-        <Bubbles colors={this.state.colorList} />
+        <ColorList colors={colorList} setColorList={setColorList} getColors={getColors} />
+        <Bubbles colors={colorList} />
       </>
     );
-  }
 };
+
+export default BubblePage

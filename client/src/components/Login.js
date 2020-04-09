@@ -22,9 +22,9 @@ class Login extends React.Component {
         event.preventDefault();
         axiosWithAuth().post('/login', this.state.credentials)
             .then(res => {
+                console.log('login response', res)
                 localStorage.setItem('token', res.data.payload);
-                this.props.history.push('/protected');
-                console.log(this.state.credentials);
+                this.props.history.push('/colors');
             })
             .catch(err => console.log(err))
     };
